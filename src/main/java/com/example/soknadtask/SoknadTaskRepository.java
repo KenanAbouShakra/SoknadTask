@@ -50,17 +50,17 @@ public class SoknadTaskRepository {
         }
     }
 
-    public boolean endreSoknad(Soknad s) {
-        String sql = "UPDATE Soknad SET personnr=?, fornavn=?, etternavn=?, tel=?, belop=?, soknadstekst=? WHERE soknadId=?";
-        try {
-            int updated = db.update(sql, s.getPersonnr(), s.getFornavn(), s.getEtternavn(), s.getTel(), s.getBelop(), s.getSoknadstekst(), s.getSoknadId());
-            return updated > 0; // Returnerer true hvis minst én rad ble oppdatert
-        } catch (Exception e) {
-            logger.error("Feil i endre en søknad", e);
-            return false; // Returnerer false hvis en feil oppstod
+    public boolean endreSoknad(Soknad s){
+        String sql = "UPDATE  Soknad SET  personnr=?, fornavn=?, etternavn=?, tel=?, belop=?, soknadstekst=? WHERE soknadId=?";
+        try{
+            db.update(sql, s.getPersonnr(), s.getFornavn(), s.getEtternavn(), s.getTel(), s.getBelop(), s.getSoknadstekst(), s.getSoknadId());
+        return true;
+        }
+        catch(Exception e){
+            logger.error("Feil i endre en søknad " + e);
+            return false;
         }
     }
-
 
     public boolean slettEnSoknad(int soknadId) {
         String sql = "DELETE FROM Soknad WHERE soknadId=?";
