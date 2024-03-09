@@ -21,7 +21,7 @@ function henteEnSoknad(){
 }
 
 function endreSoknad() {
-    const soknad = {
+    const soknad={
         soknadId : $("#soknadId").val(),
         personnr : $("#personnr").val(),
         fornavn : $("#fornavn").val(),
@@ -33,14 +33,14 @@ function endreSoknad() {
 
     if(ingenValideringsFeil()){
         $.post("/endre", soknad, function(){
-            hentAlle();
+            window.location.href="index.html";
         })
             .fail(function(jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
             $("#feil").html(json.message);
         });
 
-        window.location.href="/";
+
     }
 }
 

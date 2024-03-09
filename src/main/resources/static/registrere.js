@@ -16,7 +16,7 @@ function regSoknad() {
             hentAlle();
         });
 
-        window.location.href="/";
+        window.location.href="index.html";
     }
 }
 

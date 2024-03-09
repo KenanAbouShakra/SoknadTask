@@ -5,8 +5,8 @@ $(function(){  // kjøres når dokumentet er ferdig lastet
 
 function hentAlle() {
 
-    const url = "/hentAlle";
-    $.get( url, function( soknader) {
+
+    $.get( "/hentAlle", function( soknader) {
         formaterData(soknader);
     })
         .fail(function(jqXHR) {
