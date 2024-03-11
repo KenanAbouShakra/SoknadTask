@@ -15,6 +15,26 @@ function hentAlle() {
         });
 }
 
+function sokEtterSoknad() {
+    var soknadId = $('#soknadIdInput').val(); // Henter verdien fra søkefeltet
+    if (!soknadId) {
+        $("#feil").html("Vennligst skriv inn en gyldig søknad ID.");
+        return;
+    }
+    $.get("/henteEnSoknad", { soknadId: soknadId }, function(soknad) {
+        // Anta at serveren returnerer en enkelt søknad eller null hvis den ikke finner noen
+        if (soknad) {
+            formaterData([soknad]); // Gjenbruker formaterData-funksjonen for konsistens
+        } else {
+            $("#soknadene").html("<p>Ingen søknad funnet med ID " + soknadId + "</p>");
+        }
+    }).fail(function(jqXHR) {
+        const json = $.parseJSON(jqXHR.responseText);
+        $("#feil").html(json.message);
+    });
+}
+
+
 function formaterData(soknader) {
     let ut = "<table class='table table-striped'><tr><th>Personnr</th><th>Fornavn</th><th>Etternavn</th><th>Telfonnr</th><th>Beløpet</th>" +
         "<th>Søknadstekst</th><th></th><th></th></tr>";

@@ -15,6 +15,7 @@ public class SoknadTaskRepository {
     @Autowired
     private JdbcTemplate db;
     private Logger logger = LoggerFactory.getLogger(SoknadTaskRepository.class);
+    // Lagrer en søknad i DB.
     public boolean lagreSoknad(Soknad s) {
         String sql = "INSERT INTO Soknad ( personnr,fornavn, etternavn,tel, belop, soknadstekst) VALUES(?,?,?,?,?,?)";
         try{
@@ -26,7 +27,7 @@ public class SoknadTaskRepository {
             return false;
         }
     }
-
+    // Henter alle søknader.
     public List<Soknad> hentAlleSoknader() {
         String sql = "SELECT * FROM Soknad ";
         try{
@@ -37,7 +38,7 @@ public class SoknadTaskRepository {
             return null;
         }
     }
-
+    // Oppdaterer en søknad.
     public Soknad henteEnSoknad(int soknadId){
         String sql = "SELECT * FROM Soknad WHERE soknadId=?";
         try{
@@ -49,7 +50,7 @@ public class SoknadTaskRepository {
             return null;
         }
     }
-
+    // Oppdaterer søknaden.
     public boolean endreSoknad(Soknad s){
         String sql = "UPDATE  Soknad SET  personnr=?, fornavn=?, etternavn=?, tel=?, belop=?, soknadstekst=? WHERE soknadId=?";
         try{
@@ -73,6 +74,7 @@ public class SoknadTaskRepository {
             return false;
         }
     }
+    // Sletter alle søknader.
     public boolean slettSoknader () {
         String sql = "DELETE FROM Soknad ";
         try{
