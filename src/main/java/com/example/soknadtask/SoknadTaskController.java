@@ -17,8 +17,9 @@ public class SoknadTaskController {
 
     private Logger logger = LoggerFactory.getLogger(SoknadTaskController.class);
 
+    // Lagrer ny søknad
     @PostMapping("/lagre")
-    public void lagreSoknad( Soknad soknad, HttpServletResponse response) throws IOException {
+    public void lagreSoknad(Soknad soknad, HttpServletResponse response) throws IOException {
         if (validerSoknadOK(soknad)) {
             boolean resultat = rep.lagreSoknad(soknad);
             if (!resultat) {
@@ -29,6 +30,7 @@ public class SoknadTaskController {
         }
     }
 
+    // Henter alle søknader
     @GetMapping("/hentAlle")
     public List<Soknad> hentAlleSoknader(HttpServletResponse response) throws IOException {
         List<Soknad> alleSoknader = rep.hentAlleSoknader();
@@ -39,6 +41,7 @@ public class SoknadTaskController {
         return alleSoknader;
     }
 
+    // Henter en spesifikk søknad
     @GetMapping("/henteEnSoknad")
     public Soknad henteEnSoknad(int soknadId, HttpServletResponse response) throws IOException {
         Soknad enSoknad = rep.henteEnSoknad(soknadId);
@@ -49,6 +52,7 @@ public class SoknadTaskController {
         return enSoknad;
     }
 
+    // Oppdaterer en eksisterende søknad
     @PostMapping("/endre")
     public void endreSoknad(Soknad soknad, HttpServletResponse response) throws IOException {
         if (validerSoknadOK(soknad)) {
@@ -61,6 +65,7 @@ public class SoknadTaskController {
         }
     }
 
+    // Sletter en spesifikk søknad
     @GetMapping("/slettEnSoknad")
     public void slettEnSoknad(int soknadId, HttpServletResponse response) throws IOException {
         boolean resultat = rep.slettEnSoknad(soknadId);
@@ -69,6 +74,7 @@ public class SoknadTaskController {
         }
     }
 
+    // Sletter alle søknader
     @GetMapping("/slettAlle")
     public void slettAlleSoknader(HttpServletResponse response) throws IOException {
         boolean resultat = rep.slettSoknader();
@@ -77,21 +83,23 @@ public class SoknadTaskController {
         }
     }
 
+    // Validerer søknadsdata
     private boolean validerSoknadOK(Soknad soknad){
+        // Regex for validering
         String regexPersonnr = "[0-9]{11}";
         String regexforNavn = "[a-zA-ZæøåÆØÅ. \\-]{2,20}";
         String regexEtternavn = "[a-zA-ZæøåÆØÅ. \\-]{2,20}";
         String regexTel = "[0-9]{8}";
         String regexBelop = "[0-9]{4,7}";
-        String regexSoknadstekst = "[0-9a-zA-ZæøåÆØÅ. \\-]{0,10000}";
+
+        // Validering av hvert felt
         boolean personnrOK = soknad.getPersonnr().matches(regexPersonnr);
         boolean fornavnOK = soknad.getFornavn().matches(regexforNavn);
         boolean etternavnOK = soknad.getEtternavn().matches(regexEtternavn);
         boolean belopOK = String.valueOf(soknad.getBelop()).matches(regexBelop);
         boolean telOK = soknad.getTel().matches(regexTel);
-        boolean soknadtekstOK = soknad.getSoknadstekst().matches(regexSoknadstekst);
 
-        return personnrOK && fornavnOK && etternavnOK && telOK && belopOK && soknadtekstOK;
+        return personnrOK && fornavnOK && etternavnOK && telOK && belopOK ;
     }
 
 }

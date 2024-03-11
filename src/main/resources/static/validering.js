@@ -51,18 +51,22 @@ function validerBelop(){
         $("#feilBelop").html("");
         return true;}
 }
-function validerSoknadstekst(){
+function validerSoknadstekst() {
     const soknadstekst = $("#soknadstekst").val();
-    const regexp = /^[0-9a-zA-ZæøåÆØÅ. \-]{0,10000}$/;
-    const ok = regexp.test(soknadstekst);
-    if(!ok){
-        $("#feilSoknadstekst").html("Søknadsteksten må bestå av 0 til 10000 bokstaver og tall");
+    // Splitter teksten inn i ord basert på mellomrom, og filtrerer ut tomme strenger for å unngå å telle "falske" ord
+    const ord = soknadstekst.split(/\s+/).filter(function(n) { return n !== ''; });
+    const antallOrd = ord.length;
+
+    // Sjekker om antallet ord er mellom 0 og 500
+    if (antallOrd > 500) {
+        $("#feilSoknadstekst").html("Søknadsteksten må bestå av mellom 0 og 500 ord");
         return false;
-    }
-    else{
+    } else {
         $("#feilSoknadstekst").html("");
-        return true;}
+        return true;
+    }
 }
+
 function validerTel(){
     const tel = $("#tel").val();
     const regexp = /^[0-9]{8}$/;
